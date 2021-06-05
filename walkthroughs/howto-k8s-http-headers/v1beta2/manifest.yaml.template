@@ -29,13 +29,6 @@ spec:
     - portMapping:
         port: 8080
         protocol: http
-      healthCheck:
-        protocol: http
-        path: '/ping'
-        healthyThreshold: 2
-        unhealthyThreshold: 2
-        timeoutMillis: 2000
-        intervalMillis: 5000
   backends:
     - virtualService:
         virtualServiceRef:
@@ -43,6 +36,7 @@ spec:
   serviceDiscovery:
     dns:
       hostname: front.${APP_NAMESPACE}.svc.cluster.local
+      responseType: ENDPOINTS
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualNode
@@ -58,16 +52,10 @@ spec:
     - portMapping:
         port: 8080
         protocol: http
-      healthCheck:
-        protocol: http
-        path: '/ping'
-        healthyThreshold: 2
-        unhealthyThreshold: 2
-        timeoutMillis: 2000
-        intervalMillis: 5000
   serviceDiscovery:
     dns:
       hostname: color-white.${APP_NAMESPACE}.svc.cluster.local
+      responseType: ENDPOINTS
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualNode
@@ -83,16 +71,10 @@ spec:
     - portMapping:
         port: 8080
         protocol: http
-      healthCheck:
-        protocol: http
-        path: '/ping'
-        healthyThreshold: 2
-        unhealthyThreshold: 2
-        timeoutMillis: 2000
-        intervalMillis: 5000
   serviceDiscovery:
     dns:
       hostname: color-blue.${APP_NAMESPACE}.svc.cluster.local
+      responseType: ENDPOINTS
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualNode
@@ -108,16 +90,10 @@ spec:
     - portMapping:
         port: 8080
         protocol: http
-      healthCheck:
-        protocol: http
-        path: '/ping'
-        healthyThreshold: 2
-        unhealthyThreshold: 2
-        timeoutMillis: 2000
-        intervalMillis: 5000
   serviceDiscovery:
     dns:
       hostname: color-red.${APP_NAMESPACE}.svc.cluster.local
+      responseType: ENDPOINTS
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualNode
@@ -133,16 +109,10 @@ spec:
     - portMapping:
         port: 8080
         protocol: http
-      healthCheck:
-        protocol: http
-        path: '/ping'
-        healthyThreshold: 2
-        unhealthyThreshold: 2
-        timeoutMillis: 2000
-        intervalMillis: 5000
   serviceDiscovery:
     dns:
       hostname: color-yellow.${APP_NAMESPACE}.svc.cluster.local
+      responseType: ENDPOINTS
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualNode
@@ -158,16 +128,10 @@ spec:
     - portMapping:
         port: 8080
         protocol: http
-      healthCheck:
-        protocol: http
-        path: '/ping'
-        healthyThreshold: 2
-        unhealthyThreshold: 2
-        timeoutMillis: 2000
-        intervalMillis: 5000
   serviceDiscovery:
     dns:
       hostname: color-green.${APP_NAMESPACE}.svc.cluster.local
+      responseType: ENDPOINTS
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualService
@@ -264,6 +228,7 @@ metadata:
   name: front
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
@@ -300,6 +265,7 @@ metadata:
   name: color-green
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
@@ -313,7 +279,7 @@ metadata:
   name: green
   namespace: ${APP_NAMESPACE}
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: color
@@ -339,6 +305,7 @@ metadata:
   name: color-blue
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
@@ -378,6 +345,7 @@ metadata:
   name: color-red
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
@@ -417,6 +385,7 @@ metadata:
   name: color-yellow
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
@@ -456,6 +425,7 @@ metadata:
   name: color-white
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
@@ -495,6 +465,7 @@ metadata:
   name: color
   namespace: ${APP_NAMESPACE}
 spec:
+  clusterIP: None
   ports:
     - port: 8080
       name: http
